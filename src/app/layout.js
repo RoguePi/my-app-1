@@ -1,7 +1,7 @@
-// File: src/app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import TermlyCMP from "./componenent/TermlyCMP";
+import TermlyCMP from "./component/TermlyCMP";
+import { Suspense } from "react";
 
 const WEBSITE_UUID = "acc52775-e3b8-423f-a76e-de49e5d712f7";
 
@@ -23,9 +23,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <TermlyCMP websiteUUID={WEBSITE_UUID} />
+      <body suppressHydrationWarning={true}>
         {children}
+        <Suspense fallback={null}>
+          <TermlyCMP 
+            websiteUUID={WEBSITE_UUID}
+            autoBlock={true}
+          />
+        </Suspense>
       </body>
     </html>
   );
